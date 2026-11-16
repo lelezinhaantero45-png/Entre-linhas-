@@ -16,7 +16,6 @@ const db = window.supabase.createClient(
 // ==================================
 
 window.abrirLogin = function() {
-  alert("A função de login está funcionando!");
   document.getElementById("paginaInicial").hidden = true;
   document.getElementById("paginaCadastro").hidden = true;
   document.getElementById("paginaLogin").hidden = false;
