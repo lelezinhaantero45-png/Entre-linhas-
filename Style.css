@@ -1,0 +1,168 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #111119;
+  color: #f2eff7;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+}
+
+header {
+  padding: 30px 22px;
+}
+
+header h1 {
+  font-size: 28px;
+  letter-spacing: 1px;
+}
+
+header h1 span {
+  color: #a78bfa;
+}
+
+header p {
+  color: #9994a5;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+main {
+  padding: 35px 22px;
+}
+
+.inicio, .cadastro {
+  margin-top: 55px;
+}
+
+.subtitulo {
+  color: #a78bfa;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+h2 {
+  font-size: 35px;
+  line-height: 1.25;
+  margin-top: 20px;
+  max-width: 350px;
+}
+
+.inicio p, .cadastro > p {
+  color: #aaa6b5;
+  margin-top: 18px;
+  line-height: 1.7;
+  font-size: 14px;
+}
+
+button {
+  background: #8b70c9;
+  color: white;
+  border: none;
+  padding: 16px 25px;
+  border-radius: 9px;
+  margin-top: 35px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+.voltar {
+  display: block;
+  background: transparent;
+  color: #b9a5e9;
+  padding: 8px 0;
+  margin: 0 0 35px;
+}
+
+form {
+  margin-top: 30px;
+}
+
+label {
+  display: block;
+  color: #d5cfe0;
+  font-size: 13px;
+  margin: 20px 0 9px;
+}
+
+input {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #373342;
+  border-radius: 9px;
+  background: #1d1b27;
+  color: white;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #a78bfa;
+}
+
+input::placeholder {
+  color: #777181;
+}
+
+form button {
+  width: 100%;
+}
+
+.aviso {
+  color: #898394 !important;
+  font-size: 11px !important;
+  margin-top: 20px !important;
+}
+
+#mensagem {
+  color: #bca7f4;
+  font-size: 13px;
+  margin-top: 20px;
+}
+
+footer {
+  text-align: center;
+  color: #625e6d;
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-top: 100px;
+  padding: 20px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.bloco-diario {
+  background: #1d1b27;
+  border: 1px solid #373342;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 30px;
+}
+
+.bloco-diario h3 {
+  font-size: 16px;
+  margin-bottom: 18px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 180px;
+  resize: vertical;
+  padding: 15px;
+  background: #111119;
+  color: white;
+  border: 1px solid #373342;
+  border-radius: 9px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
