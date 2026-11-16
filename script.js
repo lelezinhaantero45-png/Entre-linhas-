@@ -228,9 +228,10 @@ window.salvarTexto = async function() {
 
     console.error("Erro ao salvar:", error);
 
-    alert("Não foi possível guardar sua anotação. Tente novamente.");
+   alert("Erro ao guardar: " + error.message);
 
-  } finally {
+   
+   finally {
 
     botao.disabled = false;
     botao.textContent = "Guardar no meu diário";
