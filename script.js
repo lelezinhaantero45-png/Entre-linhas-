@@ -72,14 +72,15 @@ document.getElementById("cadastroForm")
   try {
 
     const { data, error } = await db.auth.signUp({
-      email: email,
-      password: senha,
-      options: {
-        data: {
-          nickname: apelido
-        }
-      }
-    });
+  email: email,
+  password: senha,
+  options: {
+    emailRedirectTo: "https://lelezinhaantero45-png.github.io/Entre-linhas-/",
+    data: {
+      nickname: apelido
+    }
+  }
+});
 
     if (error) {
       throw error;
