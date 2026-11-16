@@ -27,8 +27,12 @@
         já é um começo.
       </p>
 
-      <button onclick="entrar()">
-        Entrar no diário
+      <button onclick="abrirLogin()">
+        Já tenho uma conta
+      </button>
+
+      <button onclick="abrirCadastro()">
+        Criar meu espaço
       </button>
     </section>
 
@@ -55,15 +59,14 @@
           maxlength="20"
           required
         >
-        
-<label for="email">Seu e-mail</label>
-<input
-  type="email"
-  id="email"
-  placeholder="Digite seu e-mail"
-  required
->
 
+        <label for="email">Seu e-mail</label>
+        <input
+          type="email"
+          id="email"
+          placeholder="Digite seu e-mail"
+          required
+        >
 
         <label for="senha">Crie uma senha</label>
         <input
@@ -97,32 +100,81 @@
 
     </section>
 
-<section id="paginaDiario" hidden>
+    <!-- Página de login -->
+    <section class="login" id="paginaLogin" hidden>
 
-  <span class="subtitulo">SEU CANTINHO PARTICULAR</span>
+      <button class="voltar" onclick="voltarInicio()">
+        ← Voltar
+      </button>
 
-  <h2>Bem-vindo, <span id="nomeUsuario"></span>.</h2>
+      <span class="subtitulo">BOM TER VOCÊ DE VOLTA</span>
 
-  <p>Este é o seu espaço. Aqui suas palavras podem descansar.</p>
+      <h2>Seu cantinho espera por você.</h2>
 
-  <div class="bloco-diario">
-    <h3>O que você deseja escrever hoje?</h3>
+      <p>Entre para continuar escrevendo sua história.</p>
 
-    <textarea
-      id="textoDiario"
-      placeholder="Escreva seus pensamentos aqui..."
-    ></textarea>
+      <form id="loginForm">
 
-    <button onclick="salvarTexto()">
-      Guardar no meu diário
-    </button>
-  </div>
+        <label for="loginEmail">Seu e-mail</label>
+        <input
+          type="email"
+          id="loginEmail"
+          placeholder="Digite seu e-mail"
+          required
+        >
 
-  <button onclick="voltarInicio()">
-    Sair do diário
-  </button>
+        <label for="loginSenha">Sua senha</label>
+        <input
+          type="password"
+          id="loginSenha"
+          placeholder="Digite sua senha"
+          required
+        >
 
-</section>
+        <button type="submit">
+          Entrar no meu diário
+        </button>
+
+      </form>
+
+      <p id="mensagemLogin"></p>
+
+      <p>
+        Ainda não tem conta?
+        <button type="button" onclick="abrirCadastro()">
+          Criar meu espaço
+        </button>
+      </p>
+
+    </section>
+
+    <!-- Página do diário -->
+    <section id="paginaDiario" hidden>
+
+      <span class="subtitulo">SEU CANTINHO PARTICULAR</span>
+
+      <h2>Bem-vindo, <span id="nomeUsuario"></span>.</h2>
+
+      <p>Este é o seu espaço. Aqui suas palavras podem descansar.</p>
+
+      <div class="bloco-diario">
+        <h3>O que você deseja escrever hoje?</h3>
+
+        <textarea
+          id="textoDiario"
+          placeholder="Escreva seus pensamentos aqui..."
+        ></textarea>
+
+        <button onclick="salvarTexto()">
+          Guardar no meu diário
+        </button>
+      </div>
+
+      <button onclick="sairDiario()">
+        Sair do diário
+      </button>
+
+    </section>
 
   </main>
 
@@ -131,6 +183,7 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="script.js"></script>
+  <script src="script.js"></script>
+
 </body>
 </html>
