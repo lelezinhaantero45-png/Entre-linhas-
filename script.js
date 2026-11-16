@@ -196,3 +196,63 @@ window.sairDiario = async function() {
   voltarInicio();
 
 };
+
+// ==================================
+// SALVAR ANOTAÇÃO NO SUPABASE
+// ==================================
+
+window.salvarTexto = async function() {
+
+  const texto = document.getElementById("textoDiario").value.trim();
+
+  if (!texto) {
+    alert("Escreva alguma coisa antes de guardar. 💜");
+    return;
+  }
+
+  const { data: usuarioData, error: usuarioError } =
+    await db.auth.getUser();
+
+  if (usuarioError || !usuarioData.user) {
+    alert("Você precisa entrar na sua conta novamente.");
+    return;
+  }
+
+  const botao = document.querySelector("#paginaDiario .bloco-diario button");
+
+  botao.disabled = true;
+  botao.textContent = "Guardando...";
+
+  try {
+
+    const { error } = await db
+      .from("entries")
+      .insert({
+        user_id: usuarioData.user.id,
+        content: texto,
+        visibility: "private"
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    document.getElementById("textoDiario").value = "";
+
+    alert("Sua anotação foi guardada com carinho. 💜");
+
+  } catch (error) {
+
+    console.error("Erro ao salvar:", error);
+
+    alert("Não foi possível guardar sua anotação. Tente novamente.");
+
+  } finally {
+
+    botao.disabled = false;
+    botao.textContent = "Guardar no meu diário";
+
+  }
+
+};
+
