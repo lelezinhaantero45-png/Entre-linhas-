@@ -1,10 +1,9 @@
 
- // ==================================
- // ENTRE LINHAS - CONEXÃO SUPABASE
- // ==================================
+// ==================================
+// ENTRE LINHAS - CONEXÃO SUPABASE
+// ==================================
 
 const SUPABASE_URL = "https://tkqmtazapyfgdamsnbrk.supabase.co";
-
 const SUPABASE_KEY = "sb_publishable_n_ZhqyoxENlKwFxCMw2Y6g_gAOUNByl";
 
 const db = window.supabase.createClient(
@@ -41,9 +40,7 @@ window.voltarInicio = function() {
 // CADASTRO
 // ==================================
 
-document.getElementById("cadastroForm")
-.addEventListener("submit", async function(event) {
-
+document.getElementById("cadastroForm").addEventListener("submit", async function(event) {
   event.preventDefault();
 
   const apelido = document.getElementById("apelido").value.trim();
@@ -74,16 +71,12 @@ document.getElementById("cadastroForm")
   mensagem.textContent = "Estamos preparando seu diário...";
 
   try {
-
     const { error } = await db.auth.signUp({
       email: email,
       password: senha,
       options: {
         emailRedirectTo: "https://lelezinhaantero45-png.github.io/Entre-linhas-/",
-
-        data: {
-          nickname: apelido
-        }
+        data: { nickname: apelido }
       }
     });
 
@@ -95,28 +88,20 @@ document.getElementById("cadastroForm")
     this.reset();
 
   } catch (error) {
-
     console.error("Erro no cadastro:", error);
-
     mensagem.textContent =
       "Não foi possível criar a conta. Verifique os dados e tente novamente.";
-
   } finally {
-
     botao.disabled = false;
     botao.textContent = "Criar meu espaço";
-
   }
-
 });
 
 // ==================================
 // LOGIN
 // ==================================
 
-document.getElementById("loginForm")
-.addEventListener("submit", async function(event) {
-
+document.getElementById("loginForm").addEventListener("submit", async function(event) {
   event.preventDefault();
 
   const email = document.getElementById("loginEmail").value.trim();
@@ -130,7 +115,6 @@ document.getElementById("loginForm")
   mensagem.textContent = "Preparando seu diário...";
 
   try {
-
     const { data, error } = await db.auth.signInWithPassword({
       email: email,
       password: senha
@@ -159,23 +143,16 @@ document.getElementById("loginForm")
     await window.carregarAnotacoes();
 
     mensagem.textContent = "";
-
     this.reset();
 
   } catch (error) {
-
     console.error("Erro no login:", error);
-
     mensagem.textContent =
       "Não foi possível entrar. Confira seu e-mail e senha.";
-
   } finally {
-
     botao.disabled = false;
     botao.textContent = "Entrar no meu diário";
-
   }
-
 });
 
 // ==================================
@@ -183,7 +160,6 @@ document.getElementById("loginForm")
 // ==================================
 
 window.salvarTexto = async function() {
-
   const texto = document.getElementById("textoDiario").value.trim();
 
   if (!texto) {
@@ -203,11 +179,12 @@ window.salvarTexto = async function() {
     "#paginaDiario .bloco-diario button"
   );
 
-  botao.disabled = true;
-  botao.textContent = "Guardando...";
+  if (botao) {
+    botao.disabled = true;
+    botao.textContent = "Guardando...";
+  }
 
   try {
-
     const { error } = await db
       .from("entries")
       .insert({
@@ -219,25 +196,19 @@ window.salvarTexto = async function() {
     if (error) throw error;
 
     document.getElementById("textoDiario").value = "";
-
     alert("Sua anotação foi guardada com carinho. 💜");
 
     await window.carregarAnotacoes();
 
   } catch (error) {
-
     console.error("Erro ao salvar:", error);
-
-   alert("Erro ao guardar: " + error.message);
-
-   
-   finally {
-
-    botao.disabled = false;
-    botao.textContent = "Guardar no meu diário";
-
+    alert("Não foi possível guardar: " + error.message);
+  } finally {
+    if (botao) {
+      botao.disabled = false;
+      botao.textContent = "Guardar no meu diário";
+    }
   }
-
 };
 
 // ==================================
@@ -245,8 +216,9 @@ window.salvarTexto = async function() {
 // ==================================
 
 window.carregarAnotacoes = async function() {
-
   const lista = document.getElementById("listaAnotacoes");
+
+  if (!lista) return;
 
   lista.innerHTML = "<p>Carregando suas lembranças...</p>";
 
@@ -265,27 +237,19 @@ window.carregarAnotacoes = async function() {
     .order("created_at", { ascending: false });
 
   if (error) {
-
     console.error("Erro ao carregar:", error);
-
-    lista.innerHTML =
-      "<p>Não foi possível carregar suas lembranças.</p>";
-
+    lista.innerHTML = "<p>Não foi possível carregar suas lembranças.</p>";
     return;
   }
 
   if (!data || data.length === 0) {
-
-    lista.innerHTML =
-      "<p>Você ainda não tem anotações. 💜</p>";
-
+    lista.innerHTML = "<p>Você ainda não tem anotações. 💜</p>";
     return;
   }
 
   lista.innerHTML = "";
 
   data.forEach(function(anotacao) {
-
     const bloco = document.createElement("div");
     bloco.className = "anotacao";
 
@@ -293,17 +257,13 @@ window.carregarAnotacoes = async function() {
     texto.textContent = anotacao.content;
 
     const dataTexto = document.createElement("small");
-
     dataTexto.textContent = new Date(anotacao.created_at)
       .toLocaleString("pt-BR");
 
     bloco.appendChild(texto);
     bloco.appendChild(dataTexto);
-
     lista.appendChild(bloco);
-
   });
-
 };
 
 // ==================================
@@ -311,7 +271,6 @@ window.carregarAnotacoes = async function() {
 // ==================================
 
 window.sairDiario = async function() {
-
   const { error } = await db.auth.signOut();
 
   if (error) {
@@ -319,7 +278,6 @@ window.sairDiario = async function() {
     return;
   }
 
-  voltarInicio();
-
+  window.voltarInicio();
 };
-  
+   
