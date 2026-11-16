@@ -1,7 +1,7 @@
 
-// ==================================
-// ENTRE LINHAS - SUPABASE
-// ==================================
+ // ==================================
+ // ENTRE LINHAS - CONEXÃO SUPABASE
+ // ==================================
 
 const SUPABASE_URL = "https://tkqmtazapyfgdamsnbrk.supabase.co";
 
@@ -87,9 +87,7 @@ document.getElementById("cadastroForm")
       }
     });
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
 
     mensagem.textContent =
       "Conta criada! Verifique seu e-mail para confirmar o cadastro. 💜";
@@ -138,9 +136,7 @@ document.getElementById("loginForm")
       password: senha
     });
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
 
     const { data: perfil, error: perfilError } = await db
       .from("profiles")
@@ -159,6 +155,8 @@ document.getElementById("loginForm")
 
     document.getElementById("nomeUsuario").textContent =
       perfil?.nickname || "visitante";
+
+    await window.carregarAnotacoes();
 
     mensagem.textContent = "";
 
@@ -181,24 +179,7 @@ document.getElementById("loginForm")
 });
 
 // ==================================
-// SAIR DA CONTA
-// ==================================
-
-window.sairDiario = async function() {
-
-  const { error } = await db.auth.signOut();
-
-  if (error) {
-    alert("Não foi possível sair da conta.");
-    return;
-  }
-
-  voltarInicio();
-
-};
-
-// ==================================
-// SALVAR ANOTAÇÃO NO SUPABASE
+// SALVAR ANOTAÇÃO
 // ==================================
 
 window.salvarTexto = async function() {
@@ -218,7 +199,9 @@ window.salvarTexto = async function() {
     return;
   }
 
-  const botao = document.querySelector("#paginaDiario .bloco-diario button");
+  const botao = document.querySelector(
+    "#paginaDiario .bloco-diario button"
+  );
 
   botao.disabled = true;
   botao.textContent = "Guardando...";
@@ -233,13 +216,13 @@ window.salvarTexto = async function() {
         visibility: "private"
       });
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
 
     document.getElementById("textoDiario").value = "";
 
     alert("Sua anotação foi guardada com carinho. 💜");
+
+    await window.carregarAnotacoes();
 
   } catch (error) {
 
@@ -256,3 +239,86 @@ window.salvarTexto = async function() {
 
 };
 
+// ==================================
+// CARREGAR ANOTAÇÕES
+// ==================================
+
+window.carregarAnotacoes = async function() {
+
+  const lista = document.getElementById("listaAnotacoes");
+
+  lista.innerHTML = "<p>Carregando suas lembranças...</p>";
+
+  const { data: usuarioData, error: usuarioError } =
+    await db.auth.getUser();
+
+  if (usuarioError || !usuarioData.user) {
+    lista.innerHTML = "<p>Entre na sua conta para ver suas lembranças.</p>";
+    return;
+  }
+
+  const { data, error } = await db
+    .from("entries")
+    .select("id, content, created_at")
+    .eq("user_id", usuarioData.user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+
+    console.error("Erro ao carregar:", error);
+
+    lista.innerHTML =
+      "<p>Não foi possível carregar suas lembranças.</p>";
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    lista.innerHTML =
+      "<p>Você ainda não tem anotações. 💜</p>";
+
+    return;
+  }
+
+  lista.innerHTML = "";
+
+  data.forEach(function(anotacao) {
+
+    const bloco = document.createElement("div");
+    bloco.className = "anotacao";
+
+    const texto = document.createElement("p");
+    texto.textContent = anotacao.content;
+
+    const dataTexto = document.createElement("small");
+
+    dataTexto.textContent = new Date(anotacao.created_at)
+      .toLocaleString("pt-BR");
+
+    bloco.appendChild(texto);
+    bloco.appendChild(dataTexto);
+
+    lista.appendChild(bloco);
+
+  });
+
+};
+
+// ==================================
+// SAIR DA CONTA
+// ==================================
+
+window.sairDiario = async function() {
+
+  const { error } = await db.auth.signOut();
+
+  if (error) {
+    alert("Não foi possível sair da conta.");
+    return;
+  }
+
+  voltarInicio();
+
+};
+  
