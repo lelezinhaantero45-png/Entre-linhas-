@@ -1,10 +1,10 @@
+
 // ==================================
-// ENTRE LINHAS - CONEXÃO SUPABASE
+// ENTRE LINHAS - SUPABASE
 // ==================================
 
 const SUPABASE_URL = "https://tkqmtazapyfgdamsnbrk.supabase.co";
 
-// Cole sua Publishable Key entre as aspas:
 const SUPABASE_KEY = "sb_publishable_n_ZhqyoxENlKwFxCMw2Y6g_gAOUNByl";
 
 const db = window.supabase.createClient(
@@ -16,20 +16,29 @@ const db = window.supabase.createClient(
 // NAVEGAÇÃO
 // ==================================
 
-window.entrar = function() {
+window.abrirLogin = function() {
   document.getElementById("paginaInicial").hidden = true;
+  document.getElementById("paginaCadastro").hidden = true;
+  document.getElementById("paginaLogin").hidden = false;
+  document.getElementById("paginaDiario").hidden = true;
+};
+
+window.abrirCadastro = function() {
+  document.getElementById("paginaInicial").hidden = true;
+  document.getElementById("paginaLogin").hidden = true;
   document.getElementById("paginaCadastro").hidden = false;
   document.getElementById("paginaDiario").hidden = true;
 };
 
 window.voltarInicio = function() {
   document.getElementById("paginaCadastro").hidden = true;
+  document.getElementById("paginaLogin").hidden = true;
   document.getElementById("paginaDiario").hidden = true;
   document.getElementById("paginaInicial").hidden = false;
 };
 
 // ==================================
-// CADASTRO REAL
+// CADASTRO
 // ==================================
 
 document.getElementById("cadastroForm")
@@ -60,27 +69,23 @@ document.getElementById("cadastroForm")
     return;
   }
 
-  if (!window.supabase) {
-    mensagem.textContent = "A biblioteca do Supabase não carregou.";
-    return;
-  }
-
   botao.disabled = true;
   botao.textContent = "Criando seu espaço...";
   mensagem.textContent = "Estamos preparando seu diário...";
 
   try {
 
-    const { data, error } = await db.auth.signUp({
-  email: email,
-  password: senha,
-  options: {
-    emailRedirectTo: "https://lelezinhaantero45-png.github.io/Entre-linhas-/",
-    data: {
-      nickname: apelido
-    }
-  }
-});
+    const { error } = await db.auth.signUp({
+      email: email,
+      password: senha,
+      options: {
+        emailRedirectTo: "https://lelezinhaantero45-png.github.io/Entre-linhas-/",
+
+        data: {
+          nickname: apelido
+        }
+      }
+    });
 
     if (error) {
       throw error;
@@ -106,3 +111,88 @@ document.getElementById("cadastroForm")
   }
 
 });
+
+// ==================================
+// LOGIN
+// ==================================
+
+document.getElementById("loginForm")
+.addEventListener("submit", async function(event) {
+
+  event.preventDefault();
+
+  const email = document.getElementById("loginEmail").value.trim();
+  const senha = document.getElementById("loginSenha").value;
+
+  const mensagem = document.getElementById("mensagemLogin");
+  const botao = this.querySelector('button[type="submit"]');
+
+  botao.disabled = true;
+  botao.textContent = "Entrando...";
+  mensagem.textContent = "Preparando seu diário...";
+
+  try {
+
+    const { data, error } = await db.auth.signInWithPassword({
+      email: email,
+      password: senha
+    });
+
+    if (error) {
+      throw error;
+    }
+
+    const { data: perfil, error: perfilError } = await db
+      .from("profiles")
+      .select("nickname")
+      .eq("id", data.user.id)
+      .single();
+
+    if (perfilError) {
+      console.error("Erro ao buscar perfil:", perfilError);
+    }
+
+    document.getElementById("paginaInicial").hidden = true;
+    document.getElementById("paginaCadastro").hidden = true;
+    document.getElementById("paginaLogin").hidden = true;
+    document.getElementById("paginaDiario").hidden = false;
+
+    document.getElementById("nomeUsuario").textContent =
+      perfil?.nickname || "visitante";
+
+    mensagem.textContent = "";
+
+    this.reset();
+
+  } catch (error) {
+
+    console.error("Erro no login:", error);
+
+    mensagem.textContent =
+      "Não foi possível entrar. Confira seu e-mail e senha.";
+
+  } finally {
+
+    botao.disabled = false;
+    botao.textContent = "Entrar no meu diário";
+
+  }
+
+});
+
+// ==================================
+// SAIR DA CONTA
+// ==================================
+
+window.sairDiario = async function() {
+
+  const { error } = await db.auth.signOut();
+
+  if (error) {
+    alert("Não foi possível sair da conta.");
+    return;
+  }
+
+  voltarInicio();
+
+};
