@@ -169,6 +169,7 @@ window.salvarTexto = async function() {
 
   const { data: usuarioData, error: usuarioError } =
     await db.auth.getUser();
+  console.log("Usuário conectado:", usuarioData.user?.id);
 
   if (usuarioError || !usuarioData.user) {
     alert("Você precisa entrar na sua conta novamente.");
