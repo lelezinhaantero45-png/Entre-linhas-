@@ -1,48 +1,70 @@
 
+/* ==================================
+   ENTRE LINHAS — IDENTIDADE VISUAL
+================================== */
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+:root {
+  --fundo: #100e18;
+  --cartao: #1b1727;
+  --cartao-claro: #231d32;
+  --roxo: #a78bfa;
+  --lilas: #c4b5fd;
+  --texto: #f5f0ff;
+  --texto-suave: #aaa2b9;
+  --borda: #393047;
+}
+
 body {
-  background: #111119;
-  color: #f2eff7;
+  background:
+    radial-gradient(ellipse at top, #21182f 0%, var(--fundo) 55%);
+  color: var(--texto);
   font-family: Arial, sans-serif;
   min-height: 100vh;
 }
 
+/* CABEÇALHO */
+
 header {
-  padding: 30px 22px;
+  padding: 32px 22px;
 }
 
 header h1 {
-  font-size: 28px;
+  font-size: 29px;
   letter-spacing: 1px;
 }
 
 header h1 span {
-  color: #a78bfa;
+  color: var(--roxo);
 }
 
 header p {
-  color: #9994a5;
+  color: var(--texto-suave);
   font-size: 12px;
-  margin-top: 8px;
+  margin-top: 9px;
+  letter-spacing: .3px;
 }
+
+/* CONTEÚDO */
 
 main {
   padding: 35px 22px;
 }
 
-.inicio, .cadastro {
+.inicio,
+.cadastro {
   margin-top: 55px;
 }
 
 .subtitulo {
-  color: #a78bfa;
+  color: var(--roxo);
   font-size: 10px;
-  letter-spacing: 2px;
+  letter-spacing: 2.5px;
 }
 
 h2 {
@@ -52,35 +74,43 @@ h2 {
   max-width: 350px;
 }
 
-.inicio p, .cadastro > p {
-  color: #aaa6b5;
+.inicio p,
+.cadastro > p {
+  color: var(--texto-suave);
   margin-top: 18px;
-  line-height: 1.7;
+  line-height: 1.8;
   font-size: 14px;
 }
 
+/* BOTÕES */
+
 button {
-  background: #8b70c9;
+  background: linear-gradient(135deg, #a78bfa, #8061c5);
   color: white;
   border: none;
   padding: 16px 25px;
-  border-radius: 9px;
-  margin-top: 35px;
+  border-radius: 11px;
+  margin-top: 30px;
   font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
+  transition: .25s ease;
 }
 
 button:active {
-  transform: scale(0.97);
+  transform: scale(.97);
+  opacity: .85;
 }
 
 .voltar {
   display: block;
   background: transparent;
-  color: #b9a5e9;
+  color: var(--lilas);
   padding: 8px 0;
   margin: 0 0 35px;
 }
+
+/* FORMULÁRIOS */
 
 form {
   margin-top: 30px;
@@ -96,19 +126,23 @@ label {
 input {
   width: 100%;
   padding: 16px;
-  border: 1px solid #373342;
-  border-radius: 9px;
-  background: #1d1b27;
+  border: 1px solid var(--borda);
+  border-radius: 11px;
+  background: var(--cartao);
   color: white;
   font-size: 14px;
   outline: none;
+  transition: .2s;
 }
 
-input:focus {
-  border-color: #a78bfa;
+input:focus,
+textarea:focus {
+  border-color: var(--roxo);
+  box-shadow: 0 0 0 3px #a78bfa18;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #777181;
 }
 
@@ -123,153 +157,113 @@ form button {
 }
 
 #mensagem {
-  color: #bca7f4;
+  color: var(--lilas);
   font-size: 13px;
   margin-top: 20px;
 }
 
-footer {
-  text-align: center;
-  color: #625e6d;
-  font-size: 10px;
-  letter-spacing: 2px;
-  margin-top: 100px;
-  padding: 20px;
-}
-
-[hidden] {
-  display: none !important;
-}
-
-.bloco-diario {
-  background: #1d1b27;
-  border: 1px solid #373342;
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 30px;
-}
-
-.bloco-diario h3 {
-  font-size: 16px;
-  margin-bottom: 18px;
-}
-
-textarea {
-  width: 100%;
-  min-height: 180px;
-  resize: vertical;
-  padding: 15px;
-  background: #111119;
-  color: white;
-  border: 1px solid #373342;
-  border-radius: 9px;
-  font-family: Arial, sans-serif;
-  font-size: 14px;
-}
-
-/* ==================================
-   LOGIN
-================================== */
+/* LOGIN */
 
 .login {
   margin-top: 35px;
 }
 
 .login > p {
-  color: #aaa6b5;
+  color: var(--texto-suave);
   margin-top: 18px;
-  line-height: 1.7;
+  line-height: 1.8;
   font-size: 14px;
 }
 
-/* ==================================
-   ÁREA DO DIÁRIO
-================================== */
+/* DIÁRIO */
+
+[hidden] {
+  display: none !important;
+}
 
 #paginaDiario {
   margin-top: 35px;
 }
 
 #paginaDiario > p {
-  color: #aaa6b5;
+  color: var(--texto-suave);
   margin-top: 15px;
-  line-height: 1.7;
+  line-height: 1.8;
   font-size: 14px;
 }
 
 .bloco-diario {
   margin-top: 35px;
-  padding: 20px;
-  background: #1d1b27;
-  border: 1px solid #373342;
-  border-radius: 14px;
+  padding: 22px;
+  background: linear-gradient(145deg, var(--cartao-claro), var(--cartao));
+  border: 1px solid var(--borda);
+  border-radius: 17px;
+  box-shadow: 0 12px 30px #00000025;
 }
 
 .bloco-diario h3 {
   font-size: 17px;
   margin-bottom: 18px;
+  color: var(--lilas);
 }
 
 textarea {
   width: 100%;
-  min-height: 150px;
+  min-height: 160px;
   resize: vertical;
-  padding: 15px;
-  border: 1px solid #373342;
-  border-radius: 9px;
-  background: #111119;
+  padding: 16px;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  background: var(--fundo);
   color: white;
   font-family: Arial, sans-serif;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.7;
   outline: none;
+  transition: .2s;
 }
 
-textarea:focus,
-input:focus {
-  border-color: #a78bfa;
-}
-
-/* ==================================
-   MINHAS LEMBRANÇAS
-================================== */
+/* MINHAS LEMBRANÇAS */
 
 .minhas-lembrancas {
-  margin-top: 40px;
+  margin-top: 45px;
 }
 
 .minhas-lembrancas h3 {
-  font-size: 21px;
+  font-size: 23px;
   margin-bottom: 10px;
+  color: var(--lilas);
 }
 
 .minhas-lembrancas > p {
-  color: #9994a5;
+  color: var(--texto-suave);
   font-size: 13px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .anotacao {
-  background: #1d1b27;
-  border: 1px solid #373342;
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 15px;
+  background: linear-gradient(145deg, #241e32, #1a1625);
+  border: 1px solid var(--borda);
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 20px #00000020;
+  transition: .2s ease;
 }
 
 .anotacao p {
-  color: #f2eff7;
+  color: var(--texto);
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.8;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 
 .anotacao small {
   display: block;
-  color: #9994a5;
+  color: #a69bb8;
   font-size: 11px;
-  margin-top: 15px;
+  margin-top: 16px;
 }
 
 .anotacao button {
@@ -279,28 +273,25 @@ input:focus {
   padding: 9px 14px;
   margin-top: 15px;
   font-size: 12px;
-  border-radius: 7px;
+  border-radius: 8px;
 }
 
 .anotacao button:active {
   background: #392630;
 }
 
-/* ==================================
-   RODAPÉ
-================================== */
+/* RODAPÉ */
 
 footer {
   text-align: center;
   color: #777183;
   font-size: 10px;
   letter-spacing: 2px;
-  padding: 35px 15px;
+  padding: 40px 15px;
+  margin-top: 60px;
 }
 
-/* ==================================
-   CELULARES
-================================== */
+/* CELULARES */
 
 @media (max-width: 480px) {
   h2 {
@@ -312,7 +303,10 @@ footer {
   }
 
   .bloco-diario {
-    padding: 16px;
+    padding: 17px;
+  }
+
+  .anotacao {
+    padding: 17px;
   }
 }
-
